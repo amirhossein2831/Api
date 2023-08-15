@@ -4,24 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProducerRequest;
 use App\Http\Requests\UpdateProducerRequest;
+use App\Http\Resources\ProducerResource;
 use App\Models\Producer;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class ProducerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return AnonymousResourceCollection
      */
     public function index()
     {
-        //
+        return ProducerResource::collection(Producer::all());
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Producer $producer
+     * @return Response
+     */
+    public function show(Producer $producer)
+    {
+        return ProducerResource::make($producer);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -31,30 +45,20 @@ class ProducerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreProducerRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param \App\Http\Requests\StoreProducerRequest $request
+     * @return Response
      */
     public function store(StoreProducerRequest $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Producer  $producer
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Producer $producer)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Producer  $producer
-     * @return \Illuminate\Http\Response
+     * @param Producer $producer
+     * @return Response
      */
     public function edit(Producer $producer)
     {
@@ -64,9 +68,9 @@ class ProducerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateProducerRequest  $request
-     * @param  \App\Models\Producer  $producer
-     * @return \Illuminate\Http\Response
+     * @param \App\Http\Requests\UpdateProducerRequest $request
+     * @param Producer $producer
+     * @return Response
      */
     public function update(UpdateProducerRequest $request, Producer $producer)
     {
@@ -76,8 +80,8 @@ class ProducerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Producer  $producer
-     * @return \Illuminate\Http\Response
+     * @param Producer $producer
+     * @return Response
      */
     public function destroy(Producer $producer)
     {
