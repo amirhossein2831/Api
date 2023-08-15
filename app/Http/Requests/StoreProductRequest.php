@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CompanyExists;
+use App\Rules\ProducerExists;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProductRequest extends FormRequest
@@ -11,9 +13,9 @@ class StoreProductRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +23,21 @@ class StoreProductRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'companyId'=>['required',new CompanyExists()],//TODO create a rule ISCompanyExists
+            'name' => 'required',
+            'color' => 'required|string',
+            'code' => 'required|numeric',
+            'producerId' => ['required', new ProducerExists()],
         ];
+    }
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'company_id' => $this->companyId,
+            'producer_id' =>$this->producerId
+        ]);
     }
 }

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
+use App\Models\Producer;
 use App\Models\Product;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
@@ -37,38 +39,18 @@ class ProductController extends Controller
         $product = $includeProducer ? $product->loadMissing('producers') : $product;
         return ProductResource::make($product);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\StoreProductRequest $request
-     * @return Response
+     * @param StoreProductRequest $request
+     * @return JsonResponse
      */
     public function store(StoreProductRequest $request)
     {
-        //
-    }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Product $product
-     * @return Response
-     */
-    public function edit(Product $product)
-    {
-        //
+        $producer = Producer::find($request->input('producer_id'));
+        $product = Product::create($request->except('producerId'));
+        $product->producers()->attach($producer);
+        return ProductResource::make($product->loadMissing('producers'));
     }
 
     /**
