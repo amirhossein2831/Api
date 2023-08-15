@@ -26,7 +26,6 @@ class CompanyController extends Controller
                 ->map->toArray($request)
                 ->all();
         }
-
         return CompanyResource::collection(Company::all());
     }
 
@@ -38,7 +37,8 @@ class CompanyController extends Controller
      * @return Response
      */
     public function show(Company $company, Request $request)
-    {  $includeProduct = $request->query('includeProduct');
+    {
+        $includeProduct = $request->query('includeProduct');
         if ($includeProduct) {
             return CompanyResource::make($company->loadMissing('products'));
         }
