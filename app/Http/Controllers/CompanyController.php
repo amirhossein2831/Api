@@ -71,10 +71,13 @@ class CompanyController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Company $company
-     * @return Response
+     * @return JsonResponse
      */
     public function destroy(Company $company)
     {
-        //
+        if ($company->delete()) {
+            return \response()->json(['message'=>'delete successfully']);
+        }
+        return \response()->json(['message'=>'some thing went wrong try again']);
     }
 }
