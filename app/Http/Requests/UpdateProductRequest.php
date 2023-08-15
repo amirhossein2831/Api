@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CompanyExists;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProductRequest extends FormRequest
@@ -11,9 +12,9 @@ class UpdateProductRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +22,29 @@ class UpdateProductRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
-        return [
-            //
-        ];
+        if ($this->isMethod("PUT")) {
+            $rules = [
+                'companyId' => ['required', new CompanyExists()],
+                'name' => 'required',
+                'color' => 'required',
+                'code' => 'required',
+            ];
+        }
+        else
+            $rules = [
+                'companyId' => ['sometimes','required', new CompanyExists()],
+                'name' => 'sometimes|required',
+                'color' => 'sometimes|required',
+                'code' => 'sometimes|required',
+            ];
+        return $rules;
+    }
+    protected function prepareForValidation(): void
+    {
+        if ($this->companyId) {
+            $this->merge(['company_id'=>$this->companyId]);
+        }
     }
 }

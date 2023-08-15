@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CompanyExists;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProducerRequest extends FormRequest
@@ -11,9 +12,9 @@ class UpdateProducerRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +22,12 @@ class UpdateProducerRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
-        return [
-            //
-        ];
+        return [];
+    }
+    protected function prepareForValidation(): void
+    {
+
     }
 }

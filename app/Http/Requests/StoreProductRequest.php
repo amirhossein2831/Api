@@ -26,18 +26,18 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'companyId'=>['required',new CompanyExists()],//TODO create a rule ISCompanyExists
+            'companyId'=>['required',new CompanyExists()],
             'name' => 'required',
             'color' => 'required|string',
             'code' => 'required|numeric',
-            'producerId' => ['required', new ProducerExists()],
         ];
     }
     protected function prepareForValidation(): void
     {
-        $this->merge([
-            'company_id' => $this->companyId,
-            'producer_id' =>$this->producerId
-        ]);
+        $this->merge(
+            [
+                'company_id'=>$this->companyId
+            ]
+        );
     }
 }

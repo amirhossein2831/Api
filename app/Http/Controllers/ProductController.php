@@ -39,6 +39,7 @@ class ProductController extends Controller
         $product = $includeProducer ? $product->loadMissing('producers') : $product;
         return ProductResource::make($product);
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -47,22 +48,22 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $producer = Producer::find($request->input('producer_id'));
-        $product = Product::create($request->except('producerId'));
-        $product->producers()->attach($producer);
-        return ProductResource::make($product->loadMissing('producers'));
+        return Product::create($request->all());
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\UpdateProductRequest $request
+     * @param UpdateProductRequest $request
      * @param Product $product
-     * @return Response
+     * @return JsonResponse
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        if ($product->update($request->all())) {
+            return \response()->json(['message' => 'update successfully']);
+        }
+        return \response()->json(['message' => 'some thing went wrong try again']);
     }
 
     /**
