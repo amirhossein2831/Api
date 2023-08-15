@@ -22,6 +22,9 @@ class CompanySeeder extends Seeder
                     ->count(5)
                     ->has(Producer::factory()
                             ->count(5)
+                            ->has(Product::factory()
+                                    ->count(2)
+                            )
                     )
             )
             ->create();
