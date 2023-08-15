@@ -14,6 +14,14 @@ class ProducerResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'productId'=>$this->product_id,
+            'name'=>$this->name,
+            'address'=>$this->address,
+            'phone'=>$this->phone,
+            'notionalCode'=>$this->notional_code,
+            'city'=>$this->city
+        ];
     }
 }
