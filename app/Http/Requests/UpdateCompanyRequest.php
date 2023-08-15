@@ -11,9 +11,9 @@ class UpdateCompanyRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,21 @@ class UpdateCompanyRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
-        return [
-            //
-        ];
+        if ($this->isMethod('PUT')) {
+            $rules = [
+                'name' => 'required',
+                'country' => 'required',
+                'number' => 'required'
+            ];
+        }
+        else
+            $rules = [
+                'name'=>'sometimes|required',
+                'country'=>'sometimes|required',
+                'number'=>'sometimes|required'
+            ];
+        return $rules;
     }
 }

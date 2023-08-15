@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateCompanyRequest;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
@@ -50,28 +51,20 @@ class CompanyController extends Controller
         return Company::create($request->all());
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Company $company
-     * @return Response
-     */
-    public function edit(Company $company)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\UpdateCompanyRequest $request
+     * @param UpdateCompanyRequest $request
      * @param Company $company
-     * @return Response
+     * @return JsonResponse
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        //
+        if ($company->update($request->all())) {
+            return \response()->json(['message'=>'update successfully']);
+        }
+        return \response()->json(['message'=>'some thing went wrong try again']);
+
     }
 
     /**
