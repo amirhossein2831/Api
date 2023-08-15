@@ -32,6 +32,7 @@ class ProductController extends Controller
      * Display the specified resource.
      *
      * @param Product $product
+     * @param Request $request
      * @return Response
      */
     public function show(Product $product, Request $request)

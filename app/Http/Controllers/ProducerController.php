@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProducerRequest;
 use App\Http\Requests\UpdateProducerRequest;
 use App\Http\Resources\ProducerResource;
 use App\Models\Producer;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
@@ -16,8 +17,14 @@ class ProducerController extends Controller
      *
      * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $includeProduct = $request->query('includeProduct');
+        if ($includeProduct) {
+            return ProducerResource::collection(Producer::with('products')->get())
+                ->map->toArray($request)
+                ->all();
+        }
         return ProducerResource::collection(Producer::all());
     }
 
@@ -25,10 +32,15 @@ class ProducerController extends Controller
      * Display the specified resource.
      *
      * @param Producer $producer
+     * @param Request $request
      * @return Response
      */
-    public function show(Producer $producer)
+    public function show(Producer $producer,Request $request)
     {
+        $includeProduct = $request->query('includeProduct');
+        if ($includeProduct) {
+            return ProducerResource::make($producer->loadMissing('products'));
+        }
         return ProducerResource::make($producer);
     }
 

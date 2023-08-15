@@ -21,7 +21,8 @@ class ProducerResource extends JsonResource
             'address'=>$this->address,
             'phone'=>$this->phone,
             'notionalCode'=>$this->notional_code,
-            'city'=>$this->city
+            'city'=>$this->city,
+            'products' => ProductResource::collection($this->whenLoaded('products')),
         ];
     }
 }
