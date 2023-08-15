@@ -25,7 +25,7 @@ class ProducerFactory extends Factory
             'phone' => $this->faker->phoneNumber(),
             'notional_code' => $this->faker->unique()->numberBetween(100000000, 200000000),
             'city' => $this->faker->city(),
-            
+
         ];
     }
 }
