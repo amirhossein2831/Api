@@ -60,6 +60,16 @@ class ProductController extends Controller
         }
         return ProductResource::make($product->loadMissing('producers'));
     }
+    public function removeProducer(Product $product,Request $request){
+    $producerIds = $request->input('producerIds');
+    foreach ($producerIds as $producerId) {
+        if ($product->producers()->where('producer_id',$producerId)->exists()) {
+            $producer = Producer::findOrFail($producerId);
+            $product->producers()->detach($producer);
+        }
+    }
+    return ProductResource::make($product->loadMissing('producers'));
+}
 
     /**
      * Update the specified resource in storage.
