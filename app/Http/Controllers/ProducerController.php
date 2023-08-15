@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateProducerRequest;
 use App\Http\Resources\ProducerResource;
 use App\Models\Producer;
 use App\Models\Product;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -56,18 +57,25 @@ class ProducerController extends Controller
      *
      * @param Producer $producer
      * @param Request $request
-     * @return void
+     * @return JsonResponse
      */
     public function addProduct(Producer $producer, Request $request)
     {
+        $detail = [];
         $productIds = $request->input('productIds');
         foreach ($productIds as $productId) {
             if (!$producer->products()->where('product_id', $productId)->exists()) {
-                $product = Product::findOrFail($productId);
-                $producer->products()->attach($product);
-            }
+                try {
+                    $product = Product::findOrFail($productId);
+                    $producer->products()->attach($product);
+                    $detail[] = ["The Product with Id = $productId added successfully to Producer"];
+                } catch (Exception $exception) {
+                    $detail[] = ["The Product with Id = $productId does not Exists"];
+                }
+            } else
+                $detail[] = ["The Product with Id = $productId already exists in Producer"];
         }
-        return ProducerResource::make($producer->loadMissing('products'));
+        return \response()->json($detail);
     }
 
     /**
@@ -75,18 +83,22 @@ class ProducerController extends Controller
      *
      * @param Producer $producer
      * @param Request $request
-     * @return void
+     * @return JsonResponse
      */
     public function removeProduct(Producer $producer, Request $request)
     {
+        $detail = [];
+
         $productIds = $request->input('productIds');
         foreach ($productIds as $productId) {
             if ($producer->products()->where('product_id', $productId)->exists()) {
                 $product = Product::findOrFail($productId);
                 $producer->products()->detach($product);
-            }
+                $detail[] = ["The Product with Id = $productId deleted successfully from Producer"];
+            } else
+                $detail[] = ["The Product with Id = $productId does not exist"];
         }
-        return ProducerResource::make($producer->loadMissing('products'));
+        return \response()->json($detail);
     }
 
     /**
