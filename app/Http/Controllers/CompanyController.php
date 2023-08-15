@@ -21,12 +21,8 @@ class CompanyController extends Controller
     public function index(Request $request)
     {
         $includeProduct = $request->query('includeProduct');
-        if ($includeProduct) {
-            return CompanyResource::collection(Company::with('products')->get())
-                ->map->toArray($request)
-                ->all();
-        }
-        return CompanyResource::collection(Company::all());
+        $companies = $includeProduct ?Company::with('products')->paginate(100) : Company::paginate(100);
+        return CompanyResource::collection($companies->appends($request->query()));
     }
 
     /**
@@ -39,9 +35,7 @@ class CompanyController extends Controller
     public function show(Company $company, Request $request)
     {
         $includeProduct = $request->query('includeProduct');
-        if ($includeProduct) {
-            return CompanyResource::make($company->loadMissing('products'));
-        }
+        $company = $includeProduct ? $company->loadMissing('products') : $company;
         return CompanyResource::make($company);
     }
 
