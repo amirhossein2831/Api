@@ -8,6 +8,7 @@ use App\Http\Resources\CompanyResource;
 use App\Models\Company;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class CompanyController extends Controller
 {
@@ -21,6 +22,12 @@ class CompanyController extends Controller
         return CompanyResource::collection(Company::all());
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param Company $company
+     * @return Response
+     */
     public function show(Company $company)
     {
         return CompanyResource::make($company);
@@ -29,7 +36,7 @@ class CompanyController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -39,27 +46,20 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreCompanyRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param \App\Http\Requests\StoreCompanyRequest $request
+     * @return Response
      */
     public function store(StoreCompanyRequest $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\Response
-     */
-
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\Response
+     * @param Company $company
+     * @return Response
      */
     public function edit(Company $company)
     {
@@ -69,9 +69,9 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateCompanyRequest  $request
-     * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\Response
+     * @param \App\Http\Requests\UpdateCompanyRequest $request
+     * @param Company $company
+     * @return Response
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
@@ -81,8 +81,8 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\Response
+     * @param Company $company
+     * @return Response
      */
     public function destroy(Company $company)
     {
