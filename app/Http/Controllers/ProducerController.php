@@ -71,10 +71,13 @@ class ProducerController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Producer $producer
-     * @return Response
+     * @return JsonResponse
      */
     public function destroy(Producer $producer)
     {
-        //
+        if ($producer->delete()) {
+            return \response()->json(['message' => 'delete successfully']);
+        }
+        return \response()->json(['message' => 'some thing went wrong try again']);
     }
 }
