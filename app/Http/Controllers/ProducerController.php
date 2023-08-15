@@ -20,12 +20,8 @@ class ProducerController extends Controller
     public function index(Request $request)
     {
         $includeProduct = $request->query('includeProduct');
-        if ($includeProduct) {
-            return ProducerResource::collection(Producer::with('products')->get())
-                ->map->toArray($request)
-                ->all();
-        }
-        return ProducerResource::collection(Producer::all());
+        $producers = $includeProduct ? Producer::with('products')->paginate(100) : Producer::paginate(100);
+        return ProducerResource::collection($producers->appends($request->query()));
     }
 
     /**
@@ -35,12 +31,10 @@ class ProducerController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function show(Producer $producer,Request $request)
+    public function show(Producer $producer, Request $request)
     {
         $includeProduct = $request->query('includeProduct');
-        if ($includeProduct) {
-            return ProducerResource::make($producer->loadMissing('products'));
-        }
+        $producer = $includeProduct ? $producer->loadMissing('products') : $producer;
         return ProducerResource::make($producer);
     }
 
