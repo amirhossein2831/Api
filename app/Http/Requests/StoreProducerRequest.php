@@ -27,12 +27,12 @@ class StoreProducerRequest extends FormRequest
             'name' => 'required',
             'address' => 'required',
             'phone' => 'required',
-            'notionalCode' => 'required|numeric',
+            'nationalCode' => 'required|numeric',
             'city'=>'required'
         ];
     }
     protected function prepareForValidation(): void
     {
-        $this->merge(['notional_code'=>$this->notionalCode]);
+            $this->merge(['national_code'=>$this->nationalCode]);
     }
 }

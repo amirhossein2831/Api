@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProducerRequest;
 use App\Http\Requests\UpdateProducerRequest;
 use App\Http\Resources\ProducerResource;
 use App\Models\Producer;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
@@ -54,13 +55,16 @@ class ProducerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\UpdateProducerRequest $request
+     * @param UpdateProducerRequest $request
      * @param Producer $producer
-     * @return Response
+     * @return JsonResponse
      */
     public function update(UpdateProducerRequest $request, Producer $producer)
     {
-        //
+        if ($producer->update($request->all())) {
+            return \response()->json(['message' => 'update successfully']);
+        }
+        return \response()->json(['message' => 'some thing went wrong try again']);
     }
 
     /**

@@ -14,7 +14,7 @@ class Producer extends Model
         'name',
         'address',
         'phone',
-        'notional_code',
+        'national_code',
         'city',
     ];
 

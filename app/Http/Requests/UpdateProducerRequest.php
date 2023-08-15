@@ -23,10 +23,28 @@ class UpdateProducerRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [];
+        if ($this->isMethod('PUT')) {
+            $rules= [
+                'name'=>'required',
+                'address' => 'required',
+                'phone' => 'required',
+                'nationalCode' => 'required',
+                'city' => 'required',
+            ];
+        }else
+            $rules= [
+                'name'=>'sometimes|required',
+                'address' => 'sometimes|required',
+                'phone' => 'sometimes|required',
+                'nationalCode' => 'sometimes|required',
+                'city' => 'sometimes|required',
+            ];
+        return $rules;
     }
     protected function prepareForValidation(): void
     {
-
+        if ($this->nationalCode) {
+            $this->merge(['national_code'=>$this->nationalCode]);
+        }
     }
 }
