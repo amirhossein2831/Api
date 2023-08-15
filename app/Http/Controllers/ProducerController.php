@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProducerRequest;
 use App\Http\Requests\UpdateProducerRequest;
 use App\Http\Resources\ProducerResource;
 use App\Models\Producer;
+use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -39,7 +40,6 @@ class ProducerController extends Controller
         return ProducerResource::make($producer);
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -51,6 +51,43 @@ class ProducerController extends Controller
         return Producer::create($request->all());
     }
 
+    /**
+     * Add Product to Producer
+     *
+     * @param Producer $producer
+     * @param Request $request
+     * @return void
+     */
+    public function addProduct(Producer $producer, Request $request)
+    {
+        $productIds = $request->input('productIds');
+        foreach ($productIds as $productId) {
+            if (!$producer->products()->where('product_id', $productId)->exists()) {
+                $product = Product::findOrFail($productId);
+                $producer->products()->attach($product);
+            }
+        }
+        return ProducerResource::make($producer->loadMissing('products'));
+    }
+
+    /**
+     * Remove Product From Producer
+     *
+     * @param Producer $producer
+     * @param Request $request
+     * @return void
+     */
+    public function removeProduct(Producer $producer, Request $request)
+    {
+        $productIds = $request->input('productIds');
+        foreach ($productIds as $productId) {
+            if ($producer->products()->where('product_id', $productId)->exists()) {
+                $product = Product::findOrFail($productId);
+                $producer->products()->detach($product);
+            }
+        }
+        return ProducerResource::make($producer->loadMissing('products'));
+    }
 
     /**
      * Update the specified resource in storage.

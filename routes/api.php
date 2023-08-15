@@ -26,4 +26,6 @@ Route::apiResource('product', ProductController::class);
 Route::apiResource('producer', ProducerController::class);
 Route::post('product/addProducer/{product}',[ProductController::class,'addProducer']);
 Route::post('product/removeProducer/{product}',[ProductController::class,'removeProducer']);
+Route::post('producer/addProduct/{producer}',[ProducerController::class,'addProduct']);
+Route::post('producer/removeProduct/{producer}',[ProducerController::class,'removeProduct']);
 
