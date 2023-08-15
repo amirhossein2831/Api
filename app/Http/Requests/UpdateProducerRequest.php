@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CompanyExists;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProducerRequest extends FormRequest

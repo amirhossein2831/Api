@@ -70,10 +70,13 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Product $product
-     * @return Response
+     * @return JsonResponse
      */
     public function destroy(Product $product)
     {
-        //
+        if ($product->delete()) {
+            return \response()->json(['message'=>'delete successfully']);
+        }
+        return \response()->json(['message'=>'some thing went wrong try again']);
     }
 }
