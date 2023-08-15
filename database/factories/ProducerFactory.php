@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Producer;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Producer>
+ * @extends Factory<Producer>
  */
 class ProducerFactory extends Factory
 {
@@ -14,10 +16,16 @@ class ProducerFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            //
+            'product_id'=>Product::factory(),
+            'name' => $this->faker->name(),
+            'address' => $this->faker->streetAddress(),
+            'phone' => $this->faker->phoneNumber(),
+            'notional_code' => $this->faker->unique()->numberBetween(100000000, 200000000),
+            'city' => $this->faker->city(),
+            
         ];
     }
 }
