@@ -38,38 +38,18 @@ class ProducerController extends Controller
         return ProducerResource::make($producer);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\StoreProducerRequest $request
-     * @return Response
+     * @param StoreProducerRequest $request
+     * @return void
      */
     public function store(StoreProducerRequest $request)
     {
-        //
+        return Producer::create($request->all());
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Producer $producer
-     * @return Response
-     */
-    public function edit(Producer $producer)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

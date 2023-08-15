@@ -76,8 +76,8 @@ class CompanyController extends Controller
     public function destroy(Company $company)
     {
         if ($company->delete()) {
-            return \response()->json(['message'=>'delete successfully']);
+            return \response()->json(['message' => 'delete successfully']);
         }
-        return \response()->json(['message'=>'some thing went wrong try again']);
+        return \response()->json(['message' => 'some thing went wrong try again']);
     }
 }

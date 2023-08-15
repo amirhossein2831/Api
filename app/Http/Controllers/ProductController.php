@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
-use App\Models\Producer;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -75,8 +74,8 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         if ($product->delete()) {
-            return \response()->json(['message'=>'delete successfully']);
+            return \response()->json(['message' => 'delete successfully']);
         }
-        return \response()->json(['message'=>'some thing went wrong try again']);
+        return \response()->json(['message' => 'some thing went wrong try again']);
     }
 }

@@ -34,10 +34,6 @@ class StoreProductRequest extends FormRequest
     }
     protected function prepareForValidation(): void
     {
-        $this->merge(
-            [
-                'company_id'=>$this->companyId
-            ]
-        );
+        $this->merge(['company_id'=>$this->companyId]);
     }
 }

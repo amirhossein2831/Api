@@ -10,6 +10,14 @@ class Producer extends Model
 {
     use HasFactory;
 
+    public $fillable = [
+        'name',
+        'address',
+        'phone',
+        'notional_code',
+        'city',
+    ];
+
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class);

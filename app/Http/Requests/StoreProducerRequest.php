@@ -11,9 +11,9 @@ class StoreProducerRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,18 @@ class StoreProducerRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'name' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
+            'notionalCode' => 'required|numeric',
+            'city'=>'required'
         ];
+    }
+    protected function prepareForValidation(): void
+    {
+        $this->merge(['notional_code'=>$this->notionalCode]);
     }
 }
