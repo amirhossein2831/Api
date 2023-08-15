@@ -50,26 +50,44 @@ class ProductController extends Controller
     {
         return Product::create($request->all());
     }
-    public function addProducer(Product $product,Request $request){
+
+    /**
+     * Add Producer to Product
+     *
+     * @param Product $product
+     * @param Request $request
+     * @return ProductResource
+     */
+    public function addProducer(Product $product, Request $request)
+    {
         $producerIds = $request->input('producerIds');
         foreach ($producerIds as $producerId) {
-            if (!$product->producers()->where('producer_id',$producerId)->exists()) {
+            if (!$product->producers()->where('producer_id', $producerId)->exists()) {
                 $producer = Producer::findOrFail($producerId);
                 $product->producers()->attach($producer);
             }
         }
         return ProductResource::make($product->loadMissing('producers'));
     }
-    public function removeProducer(Product $product,Request $request){
-    $producerIds = $request->input('producerIds');
-    foreach ($producerIds as $producerId) {
-        if ($product->producers()->where('producer_id',$producerId)->exists()) {
-            $producer = Producer::findOrFail($producerId);
-            $product->producers()->detach($producer);
+    
+    /**
+     * remove Producer from product
+     *
+     * @param Product $product
+     * @param Request $request
+     * @return ProductResource
+     */
+    public function removeProducer(Product $product, Request $request)
+    {
+        $producerIds = $request->input('producerIds');
+        foreach ($producerIds as $producerId) {
+            if ($product->producers()->where('producer_id', $producerId)->exists()) {
+                $producer = Producer::findOrFail($producerId);
+                $product->producers()->detach($producer);
+            }
         }
+        return ProductResource::make($product->loadMissing('producers'));
     }
-    return ProductResource::make($product->loadMissing('producers'));
-}
 
     /**
      * Update the specified resource in storage.
