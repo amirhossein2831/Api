@@ -21,7 +21,7 @@ class CompanyController extends Controller
     public function index(Request $request)
     {
         $includeProduct = $request->query('includeProduct');
-        $companies = $includeProduct ?Company::with('products')->paginate(5) : Company::paginate(5);
+        $companies = $includeProduct ? Company::with('products')->paginate(5) : Company::paginate(5);
         return CompanyResource::collection($companies->appends($request->query()));
     }
 
@@ -40,24 +40,14 @@ class CompanyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\StoreCompanyRequest $request
-     * @return Response
+     * @param StoreCompanyRequest $request
+     * @return void
      */
     public function store(StoreCompanyRequest $request)
     {
-        //
+        return Company::create($request->all());
     }
 
 
