@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
+ * @extends Factory<Product>
  */
 class ProductFactory extends Factory
 {
@@ -14,10 +16,13 @@ class ProductFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            //
+            'company_id' => Company::factory(),
+            'name' => $this->faker->name(),
+            'color' => $this->faker->colorName(),
+            'code' => $this->faker->unique()->randomNumber(),
         ];
     }
 }
