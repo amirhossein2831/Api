@@ -21,7 +21,7 @@ class CompanyController extends Controller
     public function index(Request $request)
     {
         $includeProduct = $request->query('includeProduct');
-        $companies = $includeProduct ?Company::with('products')->paginate(100) : Company::paginate(100);
+        $companies = $includeProduct ?Company::with('products')->paginate(5) : Company::paginate(5);
         return CompanyResource::collection($companies->appends($request->query()));
     }
 

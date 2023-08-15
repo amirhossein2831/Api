@@ -20,7 +20,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $includeProducer = $request->query('includeProducer');
-        $products = $includeProducer ? Product::with('producers')->paginate(100) : Product::paginate(100);
+        $products = $includeProducer ? Product::with('producers')->paginate(10) : Product::paginate(10);
         return ProductResource::collection($products->appends($request->query()));
     }
 
