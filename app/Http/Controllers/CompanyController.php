@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateCompanyRequest;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
@@ -17,8 +18,15 @@ class CompanyController extends Controller
      *
      * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $includeProduct = $request->query('includeProduct');
+        if ($includeProduct) {
+            return CompanyResource::collection(Company::with('products')->get())
+                ->map->toArray($request)
+                ->all();
+        }
+
         return CompanyResource::collection(Company::all());
     }
 
@@ -26,10 +34,14 @@ class CompanyController extends Controller
      * Display the specified resource.
      *
      * @param Company $company
+     * @param Request $request
      * @return Response
      */
-    public function show(Company $company)
-    {
+    public function show(Company $company, Request $request)
+    {  $includeProduct = $request->query('includeProduct');
+        if ($includeProduct) {
+            return CompanyResource::make($company->loadMissing('products'));
+        }
         return CompanyResource::make($company);
     }
 

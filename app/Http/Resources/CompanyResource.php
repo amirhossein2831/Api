@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Product;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -21,7 +22,8 @@ class CompanyResource extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'country'=>$this->country,
-            'number'=>$this->number
+            'number'=>$this->number,
+            'products'=> ProductResource::collection($this->whenLoaded('products')),
         ];
     }
 }

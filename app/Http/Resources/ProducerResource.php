@@ -17,7 +17,6 @@ class ProducerResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'productId'=>$this->product_id,
             'name'=>$this->name,
             'address'=>$this->address,
             'phone'=>$this->phone,
