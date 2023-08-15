@@ -24,4 +24,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('company', CompanyController::class);
 Route::apiResource('product', ProductController::class);
 Route::apiResource('producer', ProducerController::class);
+Route::post('product/addProducer/{product}',[ProductController::class,'addProducer']);
 

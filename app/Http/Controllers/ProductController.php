@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
+use App\Models\Producer;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -48,6 +49,16 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         return Product::create($request->all());
+    }
+    public function addProducer(Product $product,Request $request){
+        $producerIds = $request->input('producerIds');
+        foreach ($producerIds as $producerId) {
+            if (!$product->producers()->where('producer_id',$producerId)->exists()) {
+                $producer = Producer::findOrFail($producerId);
+                $product->producers()->attach($producer);
+            }
+        }
+        return ProductResource::make($product->loadMissing('producers'));
     }
 
     /**
